@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import router from './routes/route';
-import { Outlet,useNavigate  } from 'react-router-dom';
+import { Outlet, useNavigate  } from 'react-router-dom';
 import { key } from 'localforage';
 const { Header, Content, Footer } = Layout;
 import {useLogin} from "./hooks/useLogin";
