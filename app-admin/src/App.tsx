@@ -1,52 +1,68 @@
-import React, { useEffect } from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import router from './routes/route';
-import { Outlet, useNavigate  } from 'react-router-dom';
-import { key } from 'localforage';
+import React, { useState, useEffect } from 'react';
+import { Button, Breadcrumb, Layout, Menu, theme, Modal } from 'antd';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { LogoutOutlined } from '@ant-design/icons';
 const { Header, Content, Footer } = Layout;
-import {useLogin} from "./hooks/useLogin";
+import { useLogin } from "./hooks/useLogin";
 
-// const items = new Array(15).fill(null).map((_, index) => ({
-//   key: index + 1,
-//   label: `nav ${index + 1}`,
-// }));
 
 const items = [
- {
-  label: 'Home',
-  key: '/'
- },
- {
-  label: 'Activity',
-  key: '/activity'
- },
-//  {
-//   label: 'Comment',
-//   key: '/comment'
-//  },
- {
-  label: 'Page',
-  key: '/page'
- },
- {
-  label: 'User',
-  key: '/user'
- }
+  {
+    label: 'Home',
+    key: '/'
+  },
+  {
+    label: 'Activity',
+    key: '/activity'
+  },
+  {
+    label: 'Page',
+    key: '/page'
+  },
+  {
+    label: 'User',
+    key: '/user'
+  }
 ];
 const App: React.FC = () => {
   const Navigate = useNavigate();
-  let check = "/"
-  useEffect(()=>{
-    if(!useLogin()){
+  const location = useLocation();
+  const currentPath = location.pathname; 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+
+  useEffect(() => {
+    if (!useLogin()) {
       Navigate('/login')
     }
-  },[])
+  }, [])
+  
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  function nav (obj:any){
+  function nav(obj: any) {
     Navigate(obj.key)
   }
+  // TODO: log out function
+  function logout() {
+    localStorage.removeItem('userToken'); 
+    sessionStorage.removeItem('userToken');
+    window.location.href = '/login'; 
+  }
+
+  function showLogoutModal() {
+    setIsModalVisible(true);
+  }
+
+  function handleOk() {
+    setIsModalVisible(false);
+    logout(); 
+  }
+
+  function handleCancel() {
+    setIsModalVisible(false);
+  }
+
   return (
     <Layout>
       <Header style={{ display: 'flex', alignItems: 'center' }}>
@@ -54,11 +70,20 @@ const App: React.FC = () => {
         <Menu
           theme="dark"
           mode="horizontal"
-          defaultSelectedKeys={[check]}
+          selectedKeys={[currentPath]}
           items={items}
           style={{ flex: 1, minWidth: 0 }}
-          onSelect = {e =>{nav(e)}}
+          onSelect={e => { nav(e) }}
         />
+        {/* log out  */}
+        <Button
+          type="text"
+          icon={<LogoutOutlined />}
+          onClick={showLogoutModal}
+          style={{ color: 'white', fontSize: '16px' }}
+        >
+          Logout
+        </Button>
       </Header>
       <Content style={{ padding: '0 48px' }}>
         <Breadcrumb style={{ margin: '16px 0' }}>
@@ -74,12 +99,22 @@ const App: React.FC = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-         <Outlet />
+          <Outlet />
         </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
         My-App ©{new Date().getFullYear()} Created
       </Footer>
+      <Modal
+        title="Confirm Logout"
+        open={isModalVisible}
+        onOk={handleOk} 
+        onCancel={handleCancel} 
+        okText="Yes"
+        cancelText="No"
+      >
+        <p>Are you sure you want to log out?</p>
+      </Modal>
     </Layout>
   );
 };

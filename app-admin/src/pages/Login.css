@@ -1,0 +1,43 @@
+.login-container {
+    height: 100vh;
+    /* Make the container fill the entire viewport */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('./background.jpg') no-repeat center center fixed;
+    /* Set the background image */
+    background-size: cover;
+    /* The background image covers the entire container */
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    /* The spacing between the logo and the title and the card */
+}
+
+.logo {
+    width: 40px;
+    /* Logo width */
+    margin-bottom: 10px;
+    /* The spacing between the logo and the system name */
+    padding-right: 10px;
+}
+
+.system-name {
+    color: #ffffff;
+    /* System name color */
+    font-size: 24px;
+    /* Font size */
+    margin: 0;
+    /* Remove the default spacing */
+}
+
+.login-card {
+    width: 500px;
+    border-radius: 8px;
+    /* Rounded corners of the card */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* Card shadow effect */
+}

@@ -32,7 +32,14 @@ type EditUserFieldType = {
 const User: React.FC = () => {
   const [addUserForm] = Form.useForm<AddUserFieldType>();
   const [editUserForm] = Form.useForm<EditUserFieldType>();
-  const [userData, setUserData] = useState<UserDataType[]>([]);
+  const data: UserDataType[] = [];
+  const [Users, setUsers] = useState(data)
+  const [loading, setLoading] = useState(false)
+  const [recordId, setRecordId] = useState(String)
+  const [isAdd, setIsAdd] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
+  const [isDelete, setIsDelete] = useState(false)
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const columns: TableProps<UserDataType>['columns'] = [
     {
@@ -67,16 +74,13 @@ const User: React.FC = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <Button color="default" onClick={() => showModal(2, record._id)}>Edit</Button>
+          <Button onClick={() => showModal(2, record._id)} color="default" >Edit</Button>
           <Button onClick={() => showModal(3, record._id)} color="danger" variant="solid">
             Delete
           </Button>
         </Space>
       ),
     }];
-
-  const data: UserDataType[] = [];
-
 
   async function addUser(data: AddUserFieldType) {
     await myAxios.post(`/users/`, data);
@@ -96,8 +100,7 @@ const User: React.FC = () => {
 
   async function getUser(id: string) {
     try {
-      // const response = await myAxios.get(`/users/${id}`);
-      const user = userData.find((user) => user._id === id);
+      const user = Users.find((user) => user._id === id);
       if (user) {
         editUserForm.setFieldsValue({
           name: user.name,
@@ -108,40 +111,11 @@ const User: React.FC = () => {
       } else {
         console.log("None")
       }
-      
     } catch (error) {
       console.error('Failed to fetch user data:', error);
       throw error;
     }
   }
-
-  const [Users, setUsers] = useState(data)
-  const [loading, setLoading] = useState(false)
-  const [recordId, setRecordId] = useState(String)
-  const [isAdd, setIsAdd] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
-  const [isDelete, setIsDelete] = useState(false)
-  const [confirmLoading, setConfirmLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    setIsAdd(false);
-    setIsEdit(false);
-    setIsDelete(false);
-    editUserForm.resetFields();
-    async function fn() {
-      var res = await myAxios.get('/users')
-      let { data: { code, data } } = res;
-      if (code === 200) {
-        for (let i = 0; i < data.length; i++) {
-          data[i].key = i + 1
-        }
-        setUsers(data)
-        setUserData(data)
-      }
-    }
-    fn()
-  }, [editUserForm])
 
   const showModal = async (type: number, recordId: string) => {
     switch (type) {
@@ -170,7 +144,6 @@ const User: React.FC = () => {
         console.log("None");
     }
   };
-  
 
   const handleCancel = (type: number) => {
     switch (type) {
@@ -191,14 +164,15 @@ const User: React.FC = () => {
   };
 
   const handleAddOk = () => {
+    setConfirmLoading(true);
     addUserForm
       .validateFields()
       .then(values => {
         addUser(values)
         setTimeout(() => {
           setIsAdd(false);
-          setConfirmLoading(false);
           addUserForm.resetFields();
+          setConfirmLoading(false);
           window.location.reload();
         }, 1500);
       })
@@ -209,14 +183,15 @@ const User: React.FC = () => {
   };
 
   const handleEditOk = () => {
+    setConfirmLoading(true);
     editUserForm
       .validateFields()
       .then(values => {
         updateUser(recordId, values)
         setTimeout(() => {
           setIsEdit(false);
-          setConfirmLoading(false);
           editUserForm.resetFields();
+          setConfirmLoading(false);
           window.location.reload();
         }, 1500);
       })
@@ -236,6 +211,25 @@ const User: React.FC = () => {
       setConfirmLoading(false);
     }, 1000);
   };
+
+  useEffect(() => {
+    setLoading(true);
+    setIsAdd(false);
+    setIsEdit(false);
+    setIsDelete(false);
+    editUserForm.resetFields();
+    async function fn() {
+      var res = await myAxios.get('/users')
+      let { data: { code, data } } = res;
+      if (code === 200) {
+        for (let i = 0; i < data.length; i++) {
+          data[i].key = i + 1
+        }
+        setUsers(data)
+      }
+    }
+    fn()
+  }, [editUserForm])
 
   return (
     <>
