@@ -199,7 +199,6 @@ const User: React.FC = () => {
         console.log('Validate Failed:', info);
         setConfirmLoading(false);
       });
-
   };
 
   const handleDeleteOk = () => {

@@ -1,18 +1,31 @@
 const Activitys = require("../models/ActivityModel");
+
 module.exports = {
-    addActivity: async (activity)=> {
+    searchActivities: async (body) => {
+        const regex = new RegExp(body.params, 'i');
+        return await Activitys.find({
+            $or: [
+                { title: regex },
+                { desc: regex }
+            ]
+        }).limit(10).lean();
+    },
+    addActivity: async (activity) => {
         return await Activitys.create(activity);
     },
-    deleteActivity: async (id)=> {
+    deleteActivity: async (id) => {
         return await Activitys.findByIdAndDelete(id);
     },
-    getAllActivity: async ()=> {
+    getAllActivity: async () => {
         return await Activitys.find();
     },
-    getActivityById: async (id)=> {
+    getActivityById: async (id) => {
         return await Activitys.findById(id);
     },
-    updateActivity: async(id,activity)=> {
-        return await Activitys.findByIdAndUpdate(id,activity);
+    getActivityByPagesId: async (id) => {
+        return await Activitys.find({ Pages_id: id });
+    },
+    updateActivity: async (id, activity) => {
+        return await Activitys.findByIdAndUpdate(id, activity);
     }
 }

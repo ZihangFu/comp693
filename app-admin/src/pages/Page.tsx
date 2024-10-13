@@ -27,7 +27,6 @@ type EditPagesData = {
 }
 
 const Page: React.FC = () => {
-    // const Navigate = useNavigate();
     const [addPageForm] = Form.useForm<AddPagesData>();
     const [editPageForm] = Form.useForm<EditPagesData>();
     const data: PagesDataType[] = [];

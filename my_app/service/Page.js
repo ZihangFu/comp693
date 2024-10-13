@@ -13,7 +13,7 @@ module.exports = {
     }
     ,
     getPageById: async (id)=>{
-        return await Page.find({_id:id})
+        return await Page.findById(id)
     }
     ,
     addPage: async (page)=>{

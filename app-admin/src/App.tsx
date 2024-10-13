@@ -5,19 +5,18 @@ import { LogoutOutlined } from '@ant-design/icons';
 const { Header, Content, Footer } = Layout;
 import { useLogin } from "./hooks/useLogin";
 
-
 const items = [
   {
     label: 'Home',
     key: '/'
   },
   {
-    label: 'Activity',
-    key: '/activity'
+    label: 'Venue',
+    key: '/venue'
   },
   {
-    label: 'Page',
-    key: '/page'
+    label: 'Category',
+    key: '/category'
   },
   {
     label: 'User',
@@ -37,9 +36,7 @@ const App: React.FC = () => {
     }
   }, [])
   
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const { token: { colorBgContainer, borderRadiusLG },} = theme.useToken();
   function nav(obj: any) {
     Navigate(obj.key)
   }
@@ -82,7 +79,7 @@ const App: React.FC = () => {
           onClick={showLogoutModal}
           style={{ color: 'white', fontSize: '16px' }}
         >
-          Logout
+          Log Out
         </Button>
       </Header>
       <Content style={{ padding: '0 48px' }}>
@@ -103,7 +100,7 @@ const App: React.FC = () => {
         </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
-        My-App ©{new Date().getFullYear()} Created
+        SocialGather+ ©{new Date().getFullYear()} Created
       </Footer>
       <Modal
         title="Confirm Logout"

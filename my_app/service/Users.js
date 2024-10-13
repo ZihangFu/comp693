@@ -7,6 +7,9 @@ module.exports = {
     getUserById: async (id) => {
         return await Users.findById(id);
     },
+    loginByUsernameAndPwd: async (user) => {
+        return await Users.find({username: user.username, password: user.password});
+    },  
     addUser: async (user) => {
         return await Users.create(user)
     },

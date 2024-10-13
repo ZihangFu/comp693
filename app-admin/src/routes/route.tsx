@@ -1,16 +1,13 @@
-import React from "react";
 import App from "../App";
 import Page from "../pages/Page";
 import User from "../pages/User";
 import Activity from "../pages/Activity";
-import Comment from "../pages/Comment";
 import Login from "../pages/Login";
-import PagesAdd from "../pages/PagesAdd";
-import ActivityAdd from "../pages/ActivityAdd";
+// import PagesAdd from "../pages/PagesAdd";
+// import ActivityAdd from "../pages/ActivityAdd";
 import PageDest from "../pages/PageDesc";
 import {
   createBrowserRouter,
-  RouterProvider,
 } from "react-router-dom";
 
 let router = createBrowserRouter([
@@ -35,7 +32,7 @@ let router = createBrowserRouter([
         element: <div><h3>Welcome to the esteemed administrator</h3></div>
       },
       {
-        path: "/page",
+        path: "/category",
         element: <Page />,
       },
       {
@@ -43,7 +40,7 @@ let router = createBrowserRouter([
         element: <User />
       },
       {
-        path: "/activity",
+        path: "/venue",
         element: <Activity />
       },
       // {
@@ -52,14 +49,14 @@ let router = createBrowserRouter([
       // }
     ]
   },
-  {
-    path: "/pageAdd/:id",
-    element: <PagesAdd />
-  },
-  {
-    path: "/ActivityAdd/:id",
-    element: <ActivityAdd />
-  },
+  // {
+  //   path: "/pageAdd/:id",
+  //   element: <PagesAdd />
+  // },
+  // {
+  //   path: "/ActivityAdd/:id",
+  //   element: <ActivityAdd />
+  // },
 ]);
 
 export default router;
