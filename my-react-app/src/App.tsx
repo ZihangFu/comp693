@@ -188,7 +188,7 @@ const App: React.FC = () => {
   return (
     <Layout>
       <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center' }} onClick={navigateFrontPage}>
+        <div style={{  cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={navigateFrontPage}>
           <img src="/logo.png" alt="Logo" style={{ height: '32px', marginRight: '16px' }} />
           <h1 style={{ color: 'white', margin: 0 }}>SocialGather+</h1>
         </div>
@@ -226,7 +226,7 @@ const App: React.FC = () => {
         <Outlet />
       </Content>
       <Footer style={{ textAlign: 'center' }}>
-        SocialGather+ ©{new Date().getFullYear()} Created
+        SocialGather+ ©{new Date().getFullYear()} Created  |  <a href='http://13.238.254.19:3000'>Administrator login</a>
       </Footer>
 
       {/* login */}

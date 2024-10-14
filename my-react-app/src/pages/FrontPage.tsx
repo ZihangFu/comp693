@@ -73,7 +73,7 @@ const FrontPage: React.FC = () => {
                             size={'small'}
                             cover={<img src={item.img_url} style={{ width: '100%', height: 200, objectFit: 'cover' }} />}
                             loading={loading}>
-                            <Card.Meta title={item.title} description={item.desc} />
+                            <Card.Meta title={item.title} description={item.desc.length > 240 ? `${item.desc.slice(0, 240)}...` : item.desc} />
                         </Card>
                     </Col>
                 ))}
@@ -83,17 +83,17 @@ const FrontPage: React.FC = () => {
             {/* Recommendations */}
             <h2 style={{ marginTop: '24px' }}>Hot Recommendations</h2>
             <Card>
-                <Row gutter={16}>
+                <Row gutter={[20, 20]}>
                     {venueData.map((item, index) => (
-                        <Col span={5} key={index}>
+                        <Col span={6} key={index}>
                             <Card
                                 hoverable
-                                style={{ width: 240 }}
+                                style={{ width: 280 }}
                                 onClick={() => navigateVenueInfor(item._id)}
                                 size={'small'}
-                                cover={<img src={item.img_url} style={{ width: '100%', height: 200, objectFit: 'cover' }} />}
+                                cover={<img src={item.img_url} style={{ width: '100%', height: 180, objectFit: 'cover' }} />}
                                 loading={loading}>
-                                <Card.Meta title={item.title} description={item.desc} />
+                                <Card.Meta title={item.title} description={item.desc.length > 100 ? `${item.desc.slice(0, 100)}...` : item.desc} />
                             </Card>
                         </Col>
                     ))}

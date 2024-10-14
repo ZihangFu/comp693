@@ -1,13 +1,6 @@
-.login-container {
-    height: 100vh;
-    /* Make the container fill the entire viewport */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: url('./background.jpg') no-repeat center center fixed;
-    /* Set the background image */
-    background-size: cover;
-    /* The background image covers the entire container */
+.login-background {
+    text-align: center;
+    /* Align items in the center */
 }
 
 .logo-container {

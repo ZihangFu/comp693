@@ -63,15 +63,16 @@ const CategoryInforPage: React.FC = () => {
                     <>
                         <Card
                             loading={loading}
-                            style={{ marginBottom: '30px' }}
+                            style={{ marginBottom: '20px' }}
                             cover={
-                                categoryData?.img_url ? (
-                                    <img
-                                        alt={categoryData.title}
-                                        src={categoryData.img_url}
-                                        style={{ width: '100%', height: '500px', objectFit: 'cover' }}
-                                    />
-                                ) : null
+                                <div style={{ width: '100%', height: '50px', backgroundColor: '#597ef7' }} />
+                                // categoryData?.img_url ? (
+                                //     <img
+                                //         alt={categoryData.title}
+                                //         src={categoryData.img_url}
+                                //         style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+                                //     />
+                                // ) : null
                             }>
                             {categoryData ? (
                                 <div>
@@ -82,18 +83,17 @@ const CategoryInforPage: React.FC = () => {
                                 <Empty description="No data available" />
                             )}
                         </Card>
-                        <Row gutter={[16, 16]}>
+                        <Row gutter={[20, 20]}>
                             {venueData.map((item, index) => (
-                                <Col span={5} key={index}>
+                                <Col span={6} key={index}>
                                     <Card
                                         hoverable
-                                        loading={loading}
+                                        style={{ width: 280 }}
                                         onClick={() => navigateVenueInfor(item._id)}
-                                        style={{ width: 240 }}
                                         size={'small'}
-                                        cover={<img src={item.img_url} style={{ width: '100%', height: 200, objectFit: 'cover' }} />}
-                                    >
-                                        <Card.Meta title={item.title} description={item.desc} />
+                                        cover={<img src={item.img_url} style={{ width: '100%', height: 180, objectFit: 'cover' }} />}
+                                        loading={loading}>
+                                        <Card.Meta title={item.title} description={item.desc.length > 100 ? `${item.desc.slice(0, 100)}...` : item.desc} />
                                     </Card>
                                 </Col>
                             ))}

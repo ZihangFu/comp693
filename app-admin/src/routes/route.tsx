@@ -3,9 +3,7 @@ import Page from "../pages/Page";
 import User from "../pages/User";
 import Activity from "../pages/Activity";
 import Login from "../pages/Login";
-// import PagesAdd from "../pages/PagesAdd";
-// import ActivityAdd from "../pages/ActivityAdd";
-import PageDest from "../pages/PageDesc";
+
 import {
   createBrowserRouter,
 } from "react-router-dom";
@@ -14,14 +12,6 @@ let router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />
-  },
-  {
-    path: "/test",
-    element: <PageDest />
-  },
-  {
-    path: "/pageDesc/:id",
-    element: <PageDest />
   },
   {
     path: "/",
@@ -43,20 +33,8 @@ let router = createBrowserRouter([
         path: "/venue",
         element: <Activity />
       },
-      // {
-      //   path: "/comment",
-      //   element: <Comment/>
-      // }
     ]
   },
-  // {
-  //   path: "/pageAdd/:id",
-  //   element: <PagesAdd />
-  // },
-  // {
-  //   path: "/ActivityAdd/:id",
-  //   element: <ActivityAdd />
-  // },
 ]);
 
 export default router;
