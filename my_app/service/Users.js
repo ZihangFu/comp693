@@ -7,9 +7,14 @@ module.exports = {
     getUserById: async (id) => {
         return await Users.findById(id);
     },
+    selectByUsername: async (user) => {
+        const name = new RegExp(user.username, 'i');
+        return await Users.find({ username: name }).lean();
+    },
     loginByUsernameAndPwd: async (user) => {
-        return await Users.find({username: user.username, password: user.password});
-    },  
+        const name = new RegExp(user.username, 'i');
+        return await Users.find({ username: name, password: user.password }).lean();
+    },
     addUser: async (user) => {
         return await Users.create(user)
     },

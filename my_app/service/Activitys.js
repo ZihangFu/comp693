@@ -2,13 +2,9 @@ const Activitys = require("../models/ActivityModel");
 
 module.exports = {
     searchActivities: async (body) => {
-        const regex = new RegExp(body.params, 'i');
         return await Activitys.find({
-            $or: [
-                { title: regex },
-                { desc: regex }
-            ]
-        }).limit(10).lean();
+            $text: { $search: body.params }
+        }).lean();
     },
     addActivity: async (activity) => {
         return await Activitys.create(activity);

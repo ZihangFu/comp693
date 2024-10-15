@@ -84,7 +84,7 @@ const FrontPage: React.FC = () => {
             <h2 style={{ marginTop: '24px' }}>Hot Recommendations</h2>
             <Card>
                 <Row gutter={[20, 20]}>
-                    {venueData.map((item, index) => (
+                    {venueData.slice(0, 4).map((item, index) => (
                         <Col span={6} key={index}>
                             <Card
                                 hoverable

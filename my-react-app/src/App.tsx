@@ -40,19 +40,22 @@ const App: React.FC = () => {
   }
 
   const navigateSearchResPage = () => {
-    if (query) {
+    if (query.trim()) {
+      resetState();
+      fetchSearch(query.trim());
       if (location.pathname !== '/searchResult') {
         Navigate(`/searchResult`);
-        fetchSearch(query);
-      } else {
-        window.location.href = '/searchResult';
-        fetchSearch(query);
       }
     } else {
       Navigate(`/`);
     }
   }
 
+  function resetState() {
+    updateVenueData([]);
+    setQuery('');
+    setLoading(false);
+  }
 
   const logout = () => {
     localStorage.removeItem('userData');
@@ -82,12 +85,12 @@ const App: React.FC = () => {
       .validateFields()
       .then(values => {
         loginRequest(values.username, values.password)
-        setTimeout(() => {
-          setShowLoginModal(false);
-          loginForm.resetFields();
-          setConfirmLoading(false);
-          window.location.reload();
-        }, 1000);
+        // setTimeout(() => {
+        //   setShowLoginModal(false);
+        //   loginForm.resetFields();
+        //   setConfirmLoading(false);
+        //   window.location.reload();
+        // }, 1000);
       })
       .catch(info => {
         console.log('Validate Failed:', info);
@@ -122,12 +125,14 @@ const App: React.FC = () => {
   const handleCancel = (type: number) => {
     switch (type) {
       case 1:
+        setConfirmLoading(false);
         setShowLoginModal(false);
         break;
       case 2:
         setShowLogoutModal(false);
         break;
       case 3:
+        setConfirmLoading(false);
         setShowSignUpModal(false);
         break;
       default:
@@ -145,13 +150,37 @@ const App: React.FC = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      const { code, data } = res.data;
+      const { code } = res.data;
+      const result = res.data;
       if (code === 200) {
         setLoading(false);
-        localStorage.setItem('userData', JSON.stringify(data));
+        if (result.data != null) {
+          localStorage.setItem('userData', JSON.stringify(result.data));
+          setTimeout(() => {
+            setShowLoginModal(false);
+            loginForm.resetFields();
+            setConfirmLoading(false);
+            window.location.reload();
+          }, 1000);
+        } else {
+          if (result.message === "username") {
+            loginForm.setFields([
+              {
+                name: 'username',
+                errors: ['Username does not exist'],
+              },
+            ]);
+          } else if (result.message === "password") {
+            loginForm.setFields([
+              {
+                name: 'password',
+                errors: ['Incorrect password'],
+              },
+            ]);
+            setConfirmLoading(false);
+          }
+        }
       }
-    } catch (error) {
-      console.error('Failed:', error);
     } finally {
       setLoading(false);
     }
@@ -180,6 +209,7 @@ const App: React.FC = () => {
       console.error('Error fetching search results:', error);
     } finally {
       setLoading(false);
+      window.location.reload();
     }
   }
 
@@ -188,7 +218,7 @@ const App: React.FC = () => {
   return (
     <Layout>
       <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{  cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={navigateFrontPage}>
+        <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={navigateFrontPage}>
           <img src="/logo.png" alt="Logo" style={{ height: '32px', marginRight: '16px' }} />
           <h1 style={{ color: 'white', margin: 0 }}>SocialGather+</h1>
         </div>

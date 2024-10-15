@@ -5,7 +5,7 @@ const router = express.Router();
 const asyncHeadle = require("./baseController");
 const pageService = require("../service/Page");
 const Page = require("../models/PageModel");
-const URL = `http://localhost:8848`; 
+const URL = `http://13.238.254.19:8848`; 
 
 router.get('/', asyncHeadle(async (req, res, next) => {
   return await pageService.getPage(req.query);

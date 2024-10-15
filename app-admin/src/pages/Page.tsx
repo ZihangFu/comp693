@@ -252,6 +252,7 @@ const Page: React.FC = () => {
                     data[i].key = i + 1
                 }
                 setUsers(data)
+                setLoading(false)
             }
         }
         fn()
@@ -262,7 +263,7 @@ const Page: React.FC = () => {
             <Space size="middle" style={{ paddingBottom: '10px' }}>
                 <Button type="primary" onClick={() => showModal(1, "add")} >Add</Button>
             </Space>
-            <Table<PagesDataType> columns={columns} dataSource={Users} />
+            <Table<PagesDataType> loading={loading} columns={columns} dataSource={Users} />
             {/* add */}
             <Modal
                 title="Add"
@@ -291,7 +292,7 @@ const Page: React.FC = () => {
                         rules={[{ required: true, message: 'Please enter the desc' }]}
 
                     >
-                        <Input placeholder="Enter desc" />
+                        <Input.TextArea placeholder="Enter desc" />
                     </Form.Item>
                     <Form.Item
                         name="img"
@@ -342,14 +343,14 @@ const Page: React.FC = () => {
                         rules={[{ required: true, message: 'Please enter the desc' }]}
 
                     >
-                        <Input placeholder="Enter desc" />
+                        <Input.TextArea placeholder="Enter desc" />
                     </Form.Item>
                     <Form.Item
                         name="img"
                         label="Image"
                         valuePropName="fileList"
                         getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
-                        rules={[{ required: true, message: 'Please upload an image' }]}
+                        // rules={[{ required: true, message: 'Please upload an image' }]}
                     >
                         <Upload
                             listType="picture"

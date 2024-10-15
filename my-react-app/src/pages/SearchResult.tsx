@@ -16,7 +16,7 @@ const SearchResult: React.FC = () => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-        }, 500);
+        }, 1500);
     }
 
     useEffect(() => {

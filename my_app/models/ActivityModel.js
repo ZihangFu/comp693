@@ -5,9 +5,7 @@ const Model = mongo.Schema({
     desc: { type: String, index: true },
     Pages_id: mongo.Schema.Types.ObjectId
 })
-
-// Model.createIndex({ title: 'text', desc: 'text' });
-
+Model.index({ title: 'text', desc: 'text' });
 module.exports = mongo.model('activitys', Model);
 
 

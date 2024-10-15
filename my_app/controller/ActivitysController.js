@@ -5,7 +5,7 @@ const router = express.Router();
 const asyncHeadle = require("./baseController");
 const ActivitysService = require("../service/Activitys");
 const Activitys = require("../models/ActivityModel");
-const URL = `http://localhost:8848`; 
+const URL = `http://13.238.254.19:8848`; 
 
 router.get('/', asyncHeadle(async (req, res) => {
   return await ActivitysService.getAllActivity();

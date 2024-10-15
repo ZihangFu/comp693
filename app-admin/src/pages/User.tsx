@@ -53,11 +53,6 @@ const User: React.FC = () => {
       dataIndex: 'username',
       key: 'username',
     },
-    // {
-    //   title: 'PassWord',
-    //   dataIndex: 'password',
-    //   key: 'password',
-    // },
     {
       title: 'Tags',
       key: 'tags',
@@ -225,6 +220,7 @@ const User: React.FC = () => {
           data[i].key = i + 1
         }
         setUsers(data)
+        setLoading(false)
       }
     }
     fn()
@@ -235,7 +231,7 @@ const User: React.FC = () => {
       <Space size="middle" style={{ paddingBottom: '10px' }}>
         <Button type="primary" onClick={() => showModal(1, "add")}>Add</Button>
       </Space>
-      <Table<UserDataType> columns={columns} dataSource={Users} />
+      <Table<UserDataType> loading={loading} columns={columns} dataSource={Users} />
       {/* add */}
       <Modal
         title="Add"

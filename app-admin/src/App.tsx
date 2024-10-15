@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Breadcrumb, Layout, Menu, theme, Modal } from 'antd';
+import { Button, Layout, Menu, theme, Modal } from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { LogoutOutlined } from '@ant-design/icons';
 const { Header, Content, Footer } = Layout;
@@ -23,6 +23,7 @@ const items = [
     key: '/user'
   }
 ];
+const client = "http://13.238.254.19:5173/";
 const App: React.FC = () => {
   const Navigate = useNavigate();
   const location = useLocation();
@@ -42,9 +43,10 @@ const App: React.FC = () => {
   }
   // TODO: log out function
   function logout() {
-    localStorage.removeItem('userToken'); 
-    sessionStorage.removeItem('userToken');
-    window.location.href = '/login'; 
+    localStorage.removeItem('username'); 
+    sessionStorage.removeItem('username');
+    window.location.href = client; 
+    // window.location.replace(client);
   }
 
   function showLogoutModal() {
@@ -83,11 +85,6 @@ const App: React.FC = () => {
         </Button>
       </Header>
       <Content style={{ padding: '0 48px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
         <div
           style={{
             background: colorBgContainer,

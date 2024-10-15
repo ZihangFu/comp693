@@ -3,6 +3,7 @@ import { Upload, Modal, Form, Input, Select, Space, Table, Button } from 'antd';
 import type { TableProps, UploadFile } from 'antd';
 import myAxios from "../utils/Axios";
 import { UploadOutlined, DeleteOutlined } from '@ant-design/icons';
+const { Search } = Input;
 // import { useNavigate } from 'react-router-dom';
 
 type ActivityDataType = {
@@ -49,6 +50,7 @@ const Activity: React.FC = () => {
     const [preview, setPreview] = useState<UploadFile[]>([]);
     const pagesDictData: PagesDictData[] = [];
     const [pagesDict, setPagesDict] = useState(pagesDictData);
+    const [query, setQuery] = useState<string>('');
 
     const columns: TableProps<ActivityDataType>['columns'] = [
         {
@@ -69,7 +71,7 @@ const Activity: React.FC = () => {
             render: (text) => <img src={text} alt="" style={{ width: "50px" }} />
         },
         {
-            title: 'Pages',
+            title: 'Category',
             dataIndex: 'Pages_id',
             key: 'Pages_id',
             render: (Pages_id) => {
@@ -96,12 +98,7 @@ const Activity: React.FC = () => {
             ),
         }];
 
-    // async function add(id: String) {
-    //     Navigate(`/ActivityAdd/${id}`)
-    // }
-
     async function addActivity(data: AddActivityData) {
-        // await myAxios.post(`/Activitys/`, data);
         const formData = new FormData();
         formData.append('title', data.title || '');
         formData.append('desc', data.desc || '');
@@ -170,6 +167,48 @@ const Activity: React.FC = () => {
             }
         } catch (error) {
             console.error('Failed to fetch pagesDict data:', error);
+        }
+    }
+
+    async function fetchAll() {
+        setLoading(true)
+        var res = await myAxios.get('/Activitys')
+        let { data: { code, data } } = res;
+        if (code === 200) {
+            for (let i = 0; i < data.length; i++) {
+                data[i].key = i + 1
+            }
+            setUsers(data)
+            setLoading(false)
+        }
+    }
+
+    async function fetchSearch(params: string) {
+        setLoading(true);
+        try {
+            const formData = new FormData();
+            formData.append('params', params);
+            const res = await myAxios.post(`/searchVenue/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            const { code, data } = res.data;
+            if (code === 200) {
+                setUsers(data)
+            }
+        } catch (error) {
+            console.error('Error fetching search results:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const onSearch = () => {
+        if (query.trim()) {
+            fetchSearch(query.trim());
+        } else {
+            fetchAll();
         }
     }
 
@@ -287,27 +326,23 @@ const Activity: React.FC = () => {
     };
 
     useEffect(() => {
-        setLoading(true)
         getPagesDict();
-        async function fn() {
-            var res = await myAxios.get('/Activitys')
-            let { data: { code, data } } = res;
-            if (code === 200) {
-                for (let i = 0; i < data.length; i++) {
-                    data[i].key = i + 1
-                }
-                setUsers(data)
-            }
-        }
-        fn()
+        fetchAll()
     }, [])
 
     return (
         <>
             <Space size="middle" style={{ paddingBottom: '10px' }}>
                 <Button type="primary" onClick={() => showModal(1, "add")} >Add</Button>
+                <Search
+                    placeholder="Search in SocialGather+ "
+                    style={{ width: 400, margin: '0 16px', borderRadius: 20 }}
+                    onSearch={onSearch}
+                    onChange={(e) => setQuery(e.target.value)}
+                    loading={loading}
+                />
             </Space>
-            <Table<ActivityDataType> columns={columns} dataSource={Users} />
+            <Table<ActivityDataType> loading={loading} columns={columns} dataSource={Users} />
             {/* add */}
             <Modal
                 title="Add"
@@ -336,7 +371,7 @@ const Activity: React.FC = () => {
                         rules={[{ required: true, message: 'Please enter the desc' }]}
 
                     >
-                        <Input placeholder="Enter desc" />
+                        <Input.TextArea placeholder="Enter desc" />
                     </Form.Item>
                     <Form.Item
                         name="img"
@@ -400,14 +435,14 @@ const Activity: React.FC = () => {
                         rules={[{ required: true, message: 'Please enter the desc' }]}
 
                     >
-                        <Input placeholder="Enter desc" />
+                        <Input.TextArea placeholder="Enter desc" />
                     </Form.Item>
                     <Form.Item
                         name="img"
                         label="Image"
                         valuePropName="fileList"
                         getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
-                        rules={[{ required: true, message: 'Please upload an image' }]}
+                        // rules={[{ required: true, message: 'Please upload an image' }]}
                     >
                         <Upload
                             listType="picture"
@@ -439,7 +474,7 @@ const Activity: React.FC = () => {
                     </Form.Item>
                     <Form.Item
                         name="Pages_id"
-                        label="Pages"
+                        label="Category"
                         rules={[{ required: true, message: 'Please enter the Pages' }]}
                     >
                         <Select placeholder="Select a page">
