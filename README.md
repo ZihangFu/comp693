@@ -4,19 +4,19 @@
 
 ## Deployment Information
 
-- **Latest Frontend URL**: [http://13.238.254.19:5173/](http://13.238.254.19:5173/)  
+- **Latest Frontend URL**: [http://13.238.254.19:5173/] 
 
-- **Local Development URL**: `http://localhost:5173/`
+- **Local Development URL**: [http://localhost:5173/]
 
 ---
 
-## **SportsConnect+**
+## **SocialGather+**
 
 > A web application designed to simplify the process of discovering and reviewing sports and gym venues.
 
 ### Overview
 
-**SportsConnect+** is a platform that streamlines the search and review of sports venues, such as gyms, courts, and training facilities. Users can explore venues, leave reviews, and rate their experiences, offering valuable insights for others.
+**SocialGather+** is a platform that streamlines the search and review of sports venues, such as gyms, courts, and training facilities. Users can explore venues, leave reviews, and rate their experiences, offering valuable insights for others.
 
 ### Purpose
 
@@ -98,4 +98,4 @@ This section details the key features of the application, designed to enhance th
 ---
 
 ### Notes
-This document has been streamlined to provide a concise and efficient overview of the **SportsConnect+** project. For further details or questions, please refer to the project's Q&A section.
+This document has been streamlined to provide a concise and efficient overview of the **SocialGather+** project. For further details or questions, please refer to the project's Q&A section.
