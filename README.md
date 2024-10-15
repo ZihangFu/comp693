@@ -5,7 +5,6 @@
 ## Deployment Information
 
 - **Latest Frontend URL**: [http://13.238.254.19:5173/](http://13.238.254.19:5173/)  
-  *If this is not working, check the Q&A section: “3. How do I access the latest deployed website?”*
 
 - **Local Development URL**: `http://localhost:5173/`
 
