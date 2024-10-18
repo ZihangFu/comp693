@@ -50,7 +50,7 @@ const TodayMain :FC = ()=>{
             </ul>
             <div>
                 <input type="text" value={name} onChange={e => nameValue(e)} />
-                <button onClick={add}>添加</button>
+                <button onClick={add}>Add</button>
             </div>
         </div>
 

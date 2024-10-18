@@ -19,7 +19,7 @@ const TodayList : FC<TodayListType> = (props)=>{
     }
 
     return(
-        <li><span>{props.name}</span><span>{props.desc}</span>{props.status===0?<span>待办</span>:<span>完成</span>}<button onClick={edit}>修改</button><button onClick={del}>删除</button></li>
+        <li><span>{props.name}</span><span>{props.desc}</span>{props.status===0?<span>To Do List</span>:<span>Complete</span>}<button onClick={edit}>Amend</button><button onClick={del}>Delete</button></li>
     )
 }
 export type {TodayListType};

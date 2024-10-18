@@ -12,7 +12,7 @@ const Hooks :FC = ()=>{
             <p>Hooks</p>
             <h2>{count}</h2>
             <input type="text" value={text} onChange={e => setText(e.target.value)} />
-            <button onClick={()=>{setCount(count+1)}}>加</button>
+            <button onClick={()=>{setCount(count+1)}}>Add</button>
         </>
     )
 }

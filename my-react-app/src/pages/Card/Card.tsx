@@ -16,8 +16,8 @@ const Card:FC<ListType> = (props)=>{
              <li>
                             <span>{props.name}</span>
                             <span>{props.age}</span>
-                            <button>修改</button>
-                            <button onClick={del}>删除</button>
+                            <button>Amend</button>
+                            <button onClick={del}>Delete</button>
                         </li>
         </>
     )

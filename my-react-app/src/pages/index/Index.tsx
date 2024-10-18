@@ -6,22 +6,22 @@ const Index:FC = ()=>{
     let [lists,setlists] = useState([
         {
             id:getUid(),
-            name:"张三",
+            name:"Amy",
             age:"18"
         },
         {
             id:getUid(),
-            name:"李四",
+            name:"Jack",
             age:"18"
         },
         {
             id:getUid(),
-            name:"王二麻子",
+            name:"Jeff",
             age:"18"
         },
         {
             id:getUid(),
-            name:"惠",
+            name:"Andy",
             age:"18"
         },
 
@@ -45,7 +45,7 @@ const Index:FC = ()=>{
                     )
                 })}
             </ul>
-            <button>添加</button>
+            <button>Add</button>
         </>
     )
 }
