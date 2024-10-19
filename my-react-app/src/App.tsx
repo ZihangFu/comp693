@@ -8,6 +8,7 @@ import useUserData from './hooks/LoginStatus';
 import useVenueData from './hooks/SearchReasult';
 const { Header, Content, Footer } = Layout;
 const { Search } = Input;
+import { md5 } from "js-md5";
 
 type LoginDataType = {
   username: string,
@@ -85,12 +86,6 @@ const App: React.FC = () => {
       .validateFields()
       .then(values => {
         loginRequest(values.username, values.password)
-        // setTimeout(() => {
-        //   setShowLoginModal(false);
-        //   loginForm.resetFields();
-        //   setConfirmLoading(false);
-        //   window.location.reload();
-        // }, 1000);
       })
       .catch(info => {
         console.log('Validate Failed:', info);
@@ -109,12 +104,6 @@ const App: React.FC = () => {
       .validateFields()
       .then(values => {
         signUpRequest(values)
-        setTimeout(() => {
-          setShowSignUpModal(false);
-          signupForm.resetFields();
-          setConfirmLoading(false);
-          window.location.reload();
-        }, 1000);
       })
       .catch(info => {
         console.log('Validate Failed:', info);
@@ -144,7 +133,7 @@ const App: React.FC = () => {
     try {
       const formData = new FormData();
       formData.append('username', username || '');
-      formData.append('password', password || '');
+      formData.append('password', md5(password + "md5") || '');
       const res = await axios.post(`/login/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -177,18 +166,59 @@ const App: React.FC = () => {
                 errors: ['Incorrect password'],
               },
             ]);
-            setConfirmLoading(false);
           }
         }
       }
     } finally {
       setLoading(false);
+      setConfirmLoading(false);
     }
   }
 
   async function signUpRequest(data: SignUpDataType) {
-    await axios.post(`/users/`, data);
-    setLoading(false)
+    try {
+      const formData = new FormData();
+      formData.append('name', data.name || '');
+      formData.append('username', data.username || '');
+      formData.append('password', md5(data.password + "md5") || '');
+      formData.append('email', data.email || '');
+      const res = await axios.post(`/users/`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      const { code } = res.data;
+      const result = res.data;
+      if (code === 200) {
+        if (result.message === "success") {
+          setTimeout(() => {
+            setLoading(false)
+            setConfirmLoading(false);
+            signupForm.resetFields();
+            setShowSignUpModal(false);
+          }, 1000);
+          setTimeout(() => {
+            setShowLoginModal(true);
+            loginForm.setFields([
+              {
+                name: 'username',
+                value: data.username
+              },
+            ]);
+          }, 1500);
+        } else if (result.message === "registered") {
+          signupForm.setFields([
+            {
+              name: 'username',
+              errors: ['User already registered'],
+            },
+          ]);
+        }
+      }
+    } finally {
+      setLoading(false);
+      setConfirmLoading(false);
+    }
   }
 
   async function fetchSearch(params: string) {

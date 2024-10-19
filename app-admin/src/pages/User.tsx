@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Space, Table, Tag, Button, Modal } from 'antd';
 import type { TableProps } from 'antd';
 import myAxios from "../utils/Axios";
-
+import { md5 } from "js-md5";
 
 type UserDataType = {
   key: Number,
@@ -78,8 +78,43 @@ const User: React.FC = () => {
     }];
 
   async function addUser(data: AddUserFieldType) {
-    await myAxios.post(`/users/`, data);
-    setLoading(false)
+    try {
+      const formData = new FormData();
+      formData.append('name', data.name || '');
+      formData.append('username', data.username || '');
+      formData.append('password', md5(data.password + "md5") || '');
+      formData.append('email', data.email || '');
+      const res = await myAxios.post(`/users/`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      const { code } = res.data;
+      const result = res.data;
+      if (code === 200) {
+        if (result.message === "success") {
+          setTimeout(() => {
+            setConfirmLoading(false);
+            setLoading(false);
+            setIsAdd(false);
+            addUserForm.resetFields();
+            window.location.reload();
+          }, 500);
+        } else if (result.message === "registered") {
+          addUserForm.setFields([
+            {
+              name: 'username',
+              errors: ['User already registered'],
+            },
+          ]);
+        }
+      }
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+        setConfirmLoading(false);
+      }, 500);
+    }
   }
 
   async function deleted(id: String) {
@@ -89,8 +124,36 @@ const User: React.FC = () => {
   }
 
   async function updateUser(id: String, data: EditUserFieldType) {
-    await myAxios.put(`/users/${id}`, data);
-    setLoading(false)
+    try {
+      const formData = new FormData();
+      formData.append('name', data.name || '');
+      formData.append('username', data.username || '');
+      if (data.password) {
+        formData.append('password', md5(data.password + "md5") || '');
+      }
+      formData.append('email', data.email || '');
+      const res = await myAxios.put(`/users/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      const { code } = res.data;
+      const result = res.data;
+      if (code === 200) {
+        if (result.message === "success") {
+          setTimeout(() => {
+            setLoading(false);
+            setConfirmLoading(false);
+            editUserForm.resetFields();
+          }, 500);
+        }
+      }
+    } finally {
+      setTimeout(() => {
+        setIsEdit(false);
+        window.location.reload();
+      }, 500);
+    }
   }
 
   async function getUser(id: string) {
@@ -122,7 +185,7 @@ const User: React.FC = () => {
         setRecordId(recordId);
         setLoading(true);
         try {
-          await getUser(recordId); 
+          await getUser(recordId);
         } catch (error) {
           console.error('Failed to load user data:', error);
         } finally {
@@ -164,12 +227,6 @@ const User: React.FC = () => {
       .validateFields()
       .then(values => {
         addUser(values)
-        setTimeout(() => {
-          setIsAdd(false);
-          addUserForm.resetFields();
-          setConfirmLoading(false);
-          window.location.reload();
-        }, 1500);
       })
       .catch(info => {
         console.log('Validate Failed:', info);
@@ -183,12 +240,6 @@ const User: React.FC = () => {
       .validateFields()
       .then(values => {
         updateUser(recordId, values)
-        setTimeout(() => {
-          setIsEdit(false);
-          editUserForm.resetFields();
-          setConfirmLoading(false);
-          window.location.reload();
-        }, 1500);
       })
       .catch(info => {
         console.log('Validate Failed:', info);

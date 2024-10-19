@@ -39,7 +39,6 @@ app.use(cors())
 
 app.use("/api/users", UserController)
 app.post("/api/login", async (req, res, next) => {
-    // return await Users.loginByUsernameAndPwd(req.body);
     try {
         const user = req.body;
         const userExists = await Users.selectByUsername(user);
