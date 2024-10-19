@@ -17,6 +17,7 @@ const VenueInforPage: React.FC = () => {
     const [newRating, setNewRating] = useState<number>(0);
     const [avgRating, setAvgRating] = useState<number>(0);
 
+    // Adds a new comment
     const handleAddComment = (name: string) => {
         if (newComment.trim()) {
             const newEntry = {
@@ -38,11 +39,13 @@ const VenueInforPage: React.FC = () => {
         setNewRating(value);
     };
 
+    // Inserts a comment into the server
     async function insertComment(data: CommentDataType) {
         await axios.post(`/comment/`, data);
         setLoading(false)
     }
 
+    // Fetches venue information from the server
     async function getVenueData(id: string | undefined) {
         try {
             setLoading(true);
@@ -59,6 +62,7 @@ const VenueInforPage: React.FC = () => {
         }
     }
 
+    // Fetches comments for the venue
     async function fetchComment(id: string | undefined) {
         try {
             setLoading(true);

@@ -1,6 +1,7 @@
 const Activitys = require("../models/ActivityModel");
 
 module.exports = {
+    // Function to search activities based on search parameters
     searchActivities: async (body) => {
         return await Activitys.find({
             $text: { $search: body.params }

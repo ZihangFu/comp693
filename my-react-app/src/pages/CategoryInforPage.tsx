@@ -18,6 +18,7 @@ const CategoryInforPage: React.FC = () => {
         Navigate(`/venueInfor/${id}`);
     }
 
+    // Fetch category details based on category ID
     async function getCurrentCategory(id: string | undefined) {
         try {
             setLoading(true);
@@ -34,6 +35,7 @@ const CategoryInforPage: React.FC = () => {
         }
     }
 
+    // Fetch venues under a specific category
     async function getAllVenue(id: string | undefined) {
         try {
             setLoading(true);
@@ -50,6 +52,7 @@ const CategoryInforPage: React.FC = () => {
         }
     }
 
+    // Fetch venues under a specific category
     useEffect(() => {
         getCurrentCategory(id);
         getAllVenue(id);

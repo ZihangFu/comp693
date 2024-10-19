@@ -2,6 +2,8 @@ const express = require("express")
 const multer = require('multer')
 const cors = require("cors")
 const path = require("path")
+
+// Configure Multer storage settings
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, path.join(__dirname, "./uploads"));

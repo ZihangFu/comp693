@@ -8,10 +8,12 @@ const SearchResult: React.FC = () => {
     const { venueData } = useVenueData();
     const [loading, setLoading] = useState<boolean>(false);
 
+    // Navigate to the venue information page
     const navigateVenueInfor = (id: string | undefined) => {
         Navigate(`/venueInfor/${id}`);
     }
 
+    // Simulates a loading state
     const isLoading = () => {
         setLoading(true);
         setTimeout(() => {

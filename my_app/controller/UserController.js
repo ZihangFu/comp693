@@ -3,13 +3,15 @@ const router = express.Router();
 const asyncHeadle = require("./baseController");
 const Users = require("../service/Users");
 
-
+// Route: GET all users
 router.get("/", asyncHeadle(async (req, res, next) => {
     return await Users.getAllUsers();
 }))
+// Route: GET all users
 router.get("/:id", asyncHeadle(async (req, res, next) => {
     return await Users.getUserById(req.params.id);
 }))
+// Route: POST (Create) a new user
 router.post("/", async (req, res, next) => {
     try {
         const user = req.body;

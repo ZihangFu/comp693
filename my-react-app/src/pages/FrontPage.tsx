@@ -13,14 +13,17 @@ const FrontPage: React.FC = () => {
     const [categoriesData, setCategoriesData] = useState(categoryDataType);
     const [venueData, setVenueData] = useState(venueDataType);
 
+    // Navigate to category details page
     const navigateCategoryInfor = (id: string | undefined) => {
         Navigate(`/categoryInfor/${id}`);
     }
 
+    // Navigate to venue details page
     const navigateVenueInfor = (id: string | undefined) => {
         Navigate(`/venueInfor/${id}`);
     }
 
+    // Fetch categories data from the server
     async function getCategoriesData() {
         try {
             setLoading(true);

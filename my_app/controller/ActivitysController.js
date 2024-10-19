@@ -7,7 +7,9 @@ const ActivitysService = require("../service/Activitys");
 const Activitys = require("../models/ActivityModel");
 const URL = `http://13.238.254.19:8848`; 
 
+// Route: GET all activities
 router.get('/', asyncHeadle(async (req, res) => {
+  // Fetch all activities using ActivitysService
   return await ActivitysService.getAllActivity();
 }));
 
